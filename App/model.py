@@ -28,6 +28,7 @@
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
+from DISClib.ADT import orderedmap as om
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
@@ -41,9 +42,18 @@ los mismos.
 
 
 def NewCatalog():
-    catalog = {}
+    catalog = { 'SongsPlays': None,  'VariablesMap': None, 'UniqueSongs': None, 'UniqueAuthors': None  }
+
+    catalog['VariablesMap'] = mp.newMap(17, maptype='PROBING', loadfactor=0.8)
+    catalog['SongsPlays'] = om.newMap(omaptype='RBT', comparefunction = compareContentValues)
+    catalog['UniqueSongs'] = lt.newList('ARRAYLIST')
+    catalog['UniqueAuthors'] = lt.newList('ARRAYLIST')
 
 # Funciones para agregar informacion al catalogo
+
+
+
+
 
 # Funciones para creacion de datos
 
