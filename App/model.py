@@ -77,4 +77,28 @@ def compareContentValues(value1, value2):
         return -1
 
 
+def compareArtistid(rep1, rep2):
+    """
+    Compara el id de artista de dos eventos de reproducciones
+    """
+    if (rep1["artist_id"] == rep2["artist_id"]):
+        return 0
+    elif (rep1["artist_id"] > rep2["artist_id"]):
+        return 1
+    else:
+        return -1
+
+
+def compareTrackid(rep1, rep2):
+    """
+    Compara el id de cancion de dos eventos de reproduccion
+    """
+    if (rep1["track_id"] == rep2["track_id"]):
+        return 0
+    elif (rep1["track_id"] == rep2["track_id"]):
+        return 1
+    else:
+        return -1
+
+
 # Funciones de ordenamiento
