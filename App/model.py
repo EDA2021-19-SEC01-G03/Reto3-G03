@@ -45,11 +45,14 @@ def NewCatalog():
     catalog = { 'SongsPlays': None,  'VariablesMap': None, 'UniqueSongs': None, 'UniqueAuthors': None  }
 
     catalog['VariablesMap'] = mp.newMap(17, maptype='PROBING', loadfactor=0.8)
-    catalog['SongsPlays'] = om.newMap(omaptype='RBT', comparefunction = compareContentValues)
-    catalog['UniqueSongs'] = lt.newList('ARRAYLIST')
-    catalog['UniqueAuthors'] = lt.newList('ARRAYLIST')
+    catalog['SongsPlays'] = lt.newList('ARRAY_LIST')
+    catalog['UniqueSongs'] = lt.newList('ARRAY_LIST')
+    catalog['UniqueAuthors'] = lt.newList('ARRAY_LIST')
 
 # Funciones para agregar informacion al catalogo
+
+
+
 
 
 
