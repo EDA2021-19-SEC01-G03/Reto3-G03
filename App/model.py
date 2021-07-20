@@ -46,16 +46,61 @@ def NewCatalog():
 
     catalog['VariablesMap'] = mp.newMap(17, maptype='PROBING', loadfactor=0.8)
     catalog['SongsPlays'] = lt.newList('ARRAY_LIST')
-    catalog['UniqueSongs'] = lt.newList('ARRAY_LIST')
-    catalog['UniqueAuthors'] = lt.newList('ARRAY_LIST')
+    catalog['UniqueSongs'] = lt.newList('ARRAY_LIST', cmpfunction= compareTrackid)
+    catalog['UniqueAuthors'] = lt.newList('ARRAY_LIST', cmpfunction= compareArtistid )
+
+    return catalog
 
 # Funciones para agregar informacion al catalogo
 
 
+def addSong(catalog, song): 
+
+    #Add song
+
+    lt.addLast(catalog['SongsPlays'], song)
+
+    #Add unique song
+
+    present = lt.isPresent(song['track_id'])
+    if present == 0 : 
+        lt.addLast(catalog['UniqueSongs'], song)
+
+    #Add author
+
+    present = lt.isPresent(song['artist_id'])
+    if present == 0 : 
+        lt.addLast(catalog['UniqueAuthors'], song)
+
+def addBinaryVariable(catalog, key):
+    
+    variables = lt.newList('ARRAY_LIST')
+    lt.addLast(variables, 'instrumentalness')
+    lt.addLast(variables, "liveness")
+    lt.addLast(variables, "speechiness")
+    lt.addLast(variables, "danceability")
+    lt.addLast(variables, "valence")
+    lt.addLast(variables, "loudness")
+    lt.addLast(variables, "tempo")
+    lt.addLast(variables, "acousticness")
+    lt.addLast(variables, "energy")
+
+    for name in lt.iterator(variables): 
+
+        key = name
+        value = newVariable(name)
+        mp.put(catalog['VariablesMap'], key, value)
 
 
 
+def newVariable(variable_name): 
 
+    elem = {'variable': '', 'binary':None }
+
+    elem['variable'] = variable_name
+    elem['binary'] = om.newMap(omaptype='RBT', comparefunction= compareContentValues)
+
+    return elem
 
 
 # Funciones para creacion de datos
