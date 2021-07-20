@@ -51,4 +51,17 @@ def NewCatalog():
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
+
+def compareContentValues(value1, value2):
+    """
+    Compara dos valores de contenido
+    """
+    if (value1 == value2):
+        return 0
+    elif (value1 > value2):
+        return 1
+    else:
+        return -1
+
+
 # Funciones de ordenamiento
