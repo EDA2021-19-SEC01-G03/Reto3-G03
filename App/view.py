@@ -43,9 +43,15 @@ def printMenu():
     print("5- (Segundo Requerimiento)")
     print("6- (Tercer Requerimiento)")
     print("7- (Cuarto Requerimiento)")
+    print("0- Salir")
 
 catalog = None
 
+
+def printPrimeraEntrega(lst):
+    for entry in lt.iterator(lst):
+        print("Arbol Indice de la caracteristica: "+ entry["caracteristica"])
+        print("Numero de elementos del arbol: " + entry["size"] + "     Altura del Arbol: " + entry["height"])
 """
 Menu principal
 """
@@ -61,7 +67,11 @@ while True:
 
         print("La información se ha cargado al catalogo de manera exitosa")
     elif int(inputs[0]) == 3:
-        print("Cargando información del arbol")
+        print("Cargando información del arbol...")
+        
+        lst_primeraEntrega = controller.primeraEntrega(catalog)
+        printPrimeraEntrega(lst_primeraEntrega)
+        
     else:
         sys.exit(0)
 sys.exit(0)

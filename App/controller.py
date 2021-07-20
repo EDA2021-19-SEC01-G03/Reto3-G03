@@ -36,3 +36,7 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
+
+def primeraEntrega(catalog):
+    
+    return model.primeraEntrega(catalog)

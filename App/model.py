@@ -62,6 +62,19 @@ def NewCatalog():
 
 # Funciones de consulta
 
+def primeraEntrega(catalog):
+    hashtable = catalog["VariablesMap"]
+    keys = mp.keySet(hashtable)
+    retorno = lt.newList("ARRAY_LIST")
+    for key in lt.iterator(keys):
+        pair = mp.get(hashtable, key)
+        tree = me.getValue(pair)
+        tree_size = om.size(tree)
+        tree_height = om.height(tree)
+        list_entry = {["caracteristica"]: key, ["size"]: tree_size, ["height"]: tree_height}
+        lt.addLast(retorno, list_entry)
+    return retorno
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 
