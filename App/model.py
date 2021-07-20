@@ -107,6 +107,19 @@ def newVariable(variable_name):
 
 # Funciones de consulta
 
+def primeraEntrega(catalog):
+    hashtable = catalog["VariablesMap"]
+    keys = mp.keySet(hashtable)
+    retorno = lt.newList("ARRAY_LIST")
+    for key in lt.iterator(keys):
+        pair = mp.get(hashtable, key)
+        tree = me.getValue(pair)
+        tree_size = om.size(tree)
+        tree_height = om.height(tree)
+        list_entry = {["caracteristica"]: key, ["size"]: tree_size, ["height"]: tree_height}
+        lt.addLast(retorno, list_entry)
+    return retorno
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 
@@ -117,6 +130,30 @@ def compareContentValues(value1, value2):
     if (value1 == value2):
         return 0
     elif (value1 > value2):
+        return 1
+    else:
+        return -1
+
+
+def compareArtistid(rep1, rep2):
+    """
+    Compara el id de artista de dos eventos de reproducciones
+    """
+    if (rep1["artist_id"] == rep2["artist_id"]):
+        return 0
+    elif (rep1["artist_id"] > rep2["artist_id"]):
+        return 1
+    else:
+        return -1
+
+
+def compareTrackid(rep1, rep2):
+    """
+    Compara el id de cancion de dos eventos de reproduccion
+    """
+    if (rep1["track_id"] == rep2["track_id"]):
+        return 0
+    elif (rep1["track_id"] == rep2["track_id"]):
         return 1
     else:
         return -1
