@@ -32,11 +32,16 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # Inicialización del Catálogo de libros
 
 
+def initCatalog():
+    """
+    Llama la función de inicialización del catalogo del modelo
+    """
+    catalog = model.newCatalog()
+    return catalog
 
+def loadData(catalog): 
 
-def loadData(catalog, file): 
-
-    songsfile = cf.data_dir + file
+    songsfile = cf.data_dir + 'context_content_features-small.csv'
     input_file = csv.DictReader(open(songsfile, encoding="utf-8"),
                                 delimiter=",")
     model.addBinaryVariable(catalog)

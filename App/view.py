@@ -48,6 +48,23 @@ def printMenu():
 catalog = None
 
 
+def printInformaciónCarga(catalog):
+    eventos_size = lt.size(catalog['SongsPlays'])
+    canciones_size = lt.size(catalog['UniqueSongs'])
+    autores_size = lt.size(catalog['UniqueAuthors'])
+    sub_list1 = lt.subList(catalog['SongsPlays'],1,5)
+    sub_list2 = lt.subList(catalog['SongPlays'],(eventos_size-5), eventos_size)
+    print("El Total de registros de eventos de escucha cargados son: " + eventos_size)
+    print("El total de artistas unicos cargados es de: " + autores_size)
+    print("El total de pistas de audio unicas cargadas es de: "+ canciones_size)
+    print("los primeros 5 eventos de escucha cargados: ")
+    for evento in lt.iterator(sub_list1):
+        print(evento)
+    print("\nLos ultomos 5 eventos de escucha cargados: ")
+    for evento in lt.iterator(sub_list2):
+        print(evento)
+
+
 def printPrimeraEntrega(lst):
     for entry in lt.iterator(lst):
         print("Arbol Indice de la caracteristica: "+ entry["caracteristica"])
@@ -60,12 +77,18 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Creando el catalogo ....")
+        
+        catalog = controller.initCatalog()
 
         print("Catalogo ha sido creado")
     elif int(inputs[0]) == 2:
         print("Cargando información al catalogo")
-
+        
+        controller.loadData(catalog)
         print("La información se ha cargado al catalogo de manera exitosa")
+        
+        printInformaciónCarga(catalog)
+
     elif int(inputs[0]) == 3:
         print("Cargando información del arbol...")
         
