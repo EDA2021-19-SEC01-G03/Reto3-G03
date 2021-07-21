@@ -45,11 +45,9 @@ def loadData(catalog):
     input_file = csv.DictReader(open(songsfile, encoding="utf-8"),
                                 delimiter=",")
     model.addBinaryVariable(catalog)
-    x = 1
+    
     for song in input_file: 
         model.addSong(catalog, song)
-        x += 1
-        print((x /63339)*100)
     return catalog
 
 

@@ -39,10 +39,10 @@ def printMenu():
     print("1- Crear catalogo")
     print("2- Cargar información al catalogo")
     print("3- (Primera entrega) Mostrar información del arbol usado como indice")
-    print("4- (Primer Requerimiento)")
-    print("5- (Segundo Requerimiento)")
-    print("6- (Tercer Requerimiento)")
-    print("7- (Cuarto Requerimiento)")
+    print("4- (Primer Requerimiento) Encontrar reproducciones según rango de dos caracteristicas de contenido")
+    print("5- (Segundo Requerimiento) Encontrar música según rango de Liveness y Speechness")
+    print("6- (Tercer Requerimiento) Encontrar música según rango de Valencia y Tempo")
+    print("7- (Cuarto Requerimiento) Encontrar canciones a partir del género musical")
     print("0- Salir")
 
 catalog = None
