@@ -46,8 +46,8 @@ def NewCatalog():
 
     catalog['VariablesMap'] = mp.newMap(17, maptype='PROBING', loadfactor=0.8)
     catalog['SongsPlays'] = lt.newList('ARRAY_LIST')
-    catalog['UniqueSongs'] = lt.newList('ARRAY_LIST', cmpfunction= compareTrackid)
-    catalog['UniqueAuthors'] = lt.newList('ARRAY_LIST', cmpfunction= compareArtistid)
+    catalog['UniqueSongs'] = mp.newMap(maptype='PROBING')
+    catalog['UniqueAuthors'] =mp.newMap(maptype='PROBING')
 
     return catalog
 
@@ -79,17 +79,15 @@ def addSong(catalog, song):
 
     lt.addLast(catalog['SongsPlays'], song)
 
-    #Add unique song
+    #Add unique song. 
 
-    present = lt.isPresent(catalog['UniqueSongs'], song['track_id'])
-    if present == 0 : 
-        lt.addLast(catalog['UniqueSongs'], song['track_id'])
+    if not mp.contains(catalog['UniqueSongs'], song['track_id']):
+        mp.put(catalog['UniqueSongs'],song['track_id'],song)
 
     #Add author
 
-    present = lt.isPresent(catalog['UniqueAuthors'], song['artist_id'])
-    if present == 0 : 
-        lt.addLast(catalog['UniqueAuthors'], song['artist_id'])
+    if not mp.contains(catalog['UniqueAuthors'], song['artist_id']):
+        mp.put(catalog['UniqueAuthors'],song['artist_id'], song)
         
     #Add in index
 

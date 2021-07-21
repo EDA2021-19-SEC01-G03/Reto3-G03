@@ -24,6 +24,7 @@ import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp 
 assert cf
 
 
@@ -50,8 +51,8 @@ catalog = None
 
 def printInformaciónCarga(catalog):
     eventos_size = lt.size(catalog['SongsPlays'])
-    canciones_size = lt.size(catalog['UniqueSongs'])
-    autores_size = lt.size(catalog['UniqueAuthors'])
+    canciones_size = mp.size(catalog['UniqueSongs'])
+    autores_size = mp.size(catalog['UniqueAuthors'])
     sub_list1 = lt.subList(catalog['SongsPlays'], 1, 5)
     sub_list2 = lt.subList(catalog['SongsPlays'], (eventos_size-5), 5)
     
@@ -59,11 +60,15 @@ def printInformaciónCarga(catalog):
     print("El total de artistas unicos cargados es de: " + str(autores_size))
     print("El total de pistas de audio unicas cargadas es de: "+ str(canciones_size))
     print("los primeros 5 eventos de escucha cargados: ")
+    print('********************')
     for evento in lt.iterator(sub_list1):
         print(evento)
+        print('********************')
     print("\nLos últimos 5 eventos de escucha cargados: ")
+    print('********************')
     for evento in lt.iterator(sub_list2):
         print(evento)
+        print('********************')
 
 
 def printPrimeraEntrega(lst):

@@ -45,9 +45,12 @@ def loadData(catalog):
     input_file = csv.DictReader(open(songsfile, encoding="utf-8"),
                                 delimiter=",")
     model.addBinaryVariable(catalog)
-    
+    i=0
     for song in input_file: 
         model.addSong(catalog, song)
+        porcentaje = (i/63399)*100
+        i +=1
+        print(round(porcentaje,3))
     return catalog
 
 
