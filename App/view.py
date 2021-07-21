@@ -52,23 +52,24 @@ def printInformaciónCarga(catalog):
     eventos_size = lt.size(catalog['SongsPlays'])
     canciones_size = lt.size(catalog['UniqueSongs'])
     autores_size = lt.size(catalog['UniqueAuthors'])
-    sub_list1 = lt.subList(catalog['SongsPlays'],1,5)
-    sub_list2 = lt.subList(catalog['SongPlays'],(eventos_size-5), eventos_size)
-    print("El Total de registros de eventos de escucha cargados son: " + eventos_size)
-    print("El total de artistas unicos cargados es de: " + autores_size)
-    print("El total de pistas de audio unicas cargadas es de: "+ canciones_size)
+    sub_list1 = lt.subList(catalog['SongsPlays'], 1, 5)
+    sub_list2 = lt.subList(catalog['SongsPlays'], (eventos_size-5), 5)
+    
+    print("El Total de registros de eventos de escucha cargados son: " + str(eventos_size))
+    print("El total de artistas unicos cargados es de: " + str(autores_size))
+    print("El total de pistas de audio unicas cargadas es de: "+ str(canciones_size))
     print("los primeros 5 eventos de escucha cargados: ")
     for evento in lt.iterator(sub_list1):
         print(evento)
-    print("\nLos ultomos 5 eventos de escucha cargados: ")
+    print("\nLos últimos 5 eventos de escucha cargados: ")
     for evento in lt.iterator(sub_list2):
         print(evento)
 
 
 def printPrimeraEntrega(lst):
     for entry in lt.iterator(lst):
-        print("Arbol Indice de la caracteristica: "+ entry["caracteristica"])
-        print("Numero de elementos del arbol: " + entry["size"] + "     Altura del Arbol: " + entry["height"])
+        print("Arbol Indice de la caracteristica: "+ entry["variable"])
+        print("Numero de elementos del arbol: " + str(entry["size"]) + " Altura del Arbol: " + str(entry["height"]))
 """
 Menu principal
 """

@@ -81,15 +81,15 @@ def addSong(catalog, song):
 
     #Add unique song
 
-    present = lt.isPresent(song['track_id'])
+    present = lt.isPresent(catalog['UniqueSongs'], song['track_id'])
     if present == 0 : 
-        lt.addLast(catalog['UniqueSongs'], song)
+        lt.addLast(catalog['UniqueSongs'], song['track_id'])
 
     #Add author
 
-    present = lt.isPresent(song['artist_id'])
+    present = lt.isPresent(catalog['UniqueAuthors'], song['artist_id'])
     if present == 0 : 
-        lt.addLast(catalog['UniqueAuthors'], song)
+        lt.addLast(catalog['UniqueAuthors'], song['artist_id'])
         
     #Add in index
 
@@ -98,7 +98,7 @@ def addSong(catalog, song):
 
     for key in lt.iterator(lst_key): 
         pair = mp.get(catalog['VariablesMap'], key)
-        omap = me.getValue(pair)
+        omap = me.getValue(pair)['binary']
 
         updateVariableIndex(omap, song, key)
 
@@ -177,9 +177,9 @@ def compareArtistid(rep1, rep2):
     """
     Compara el id de artista de dos eventos de reproducciones
     """
-    if (rep1["artist_id"] == rep2["artist_id"]):
+    if (rep1 == rep2):
         return 0
-    elif (rep1["artist_id"] > rep2["artist_id"]):
+    elif (rep1 > rep2):
         return 1
     else:
         return -1
@@ -189,9 +189,9 @@ def compareTrackid(rep1, rep2):
     """
     Compara el id de cancion de dos eventos de reproduccion
     """
-    if (rep1["track_id"] == rep2["track_id"]):
+    if (rep1 == rep2):
         return 0
-    elif (rep1["track_id"] == rep2["track_id"]):
+    elif (rep1 == rep2):
         return 1
     else:
         return -1

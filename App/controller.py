@@ -36,17 +36,20 @@ def initCatalog():
     """
     Llama la función de inicialización del catalogo del modelo
     """
-    catalog = model.newCatalog()
+    catalog = model.NewCatalog()
     return catalog
 
 def loadData(catalog): 
 
-    songsfile = cf.data_dir + 'context_content_features-small.csv'
+    songsfile = cf.data_dir + 'Small/context_content_features-small.csv'
     input_file = csv.DictReader(open(songsfile, encoding="utf-8"),
                                 delimiter=",")
     model.addBinaryVariable(catalog)
+    x = 1
     for song in input_file: 
         model.addSong(catalog, song)
+        x += 1
+        print((x /63339)*100)
     return catalog
 
 
