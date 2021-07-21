@@ -123,7 +123,6 @@ def addVariableIndex(varentry, song):
     lt.addLast(lst, song)
 
 
-
 def newVarEntry(value, song): 
 
     entry = {'value':'', 'lstsongs': None}

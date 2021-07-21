@@ -39,9 +39,8 @@ def loadData(catalog, file):
     songsfile = cf.data_dir + file
     input_file = csv.DictReader(open(songsfile, encoding="utf-8"),
                                 delimiter=",")
-
+    model.addBinaryVariable(catalog)
     for song in input_file: 
-        model.addBinaryVariable(catalog)
         model.addSong(catalog, song)
     return catalog
 
