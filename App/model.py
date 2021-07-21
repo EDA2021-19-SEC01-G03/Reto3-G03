@@ -72,7 +72,7 @@ def addSong(catalog, song):
     if present == 0 : 
         lt.addLast(catalog['UniqueAuthors'], song)
 
-def addBinaryVariable(catalog, key):
+def addBinaryVariable(map, key = None):
     
     variables = lt.newList('ARRAY_LIST')
     lt.addLast(variables, 'instrumentalness')
@@ -86,10 +86,11 @@ def addBinaryVariable(catalog, key):
     lt.addLast(variables, "energy")
 
     for name in lt.iterator(variables): 
-
-        key = name
-        value = newVariable(name)
-        mp.put(catalog['VariablesMap'], key, value)
+        
+        if name != key:
+            key = name
+            value = newVariable(name)
+            mp.put(map, key, value)
 
 
 
@@ -113,7 +114,7 @@ def primeraEntrega(catalog):
     retorno = lt.newList("ARRAY_LIST")
     for key in lt.iterator(keys):
         pair = mp.get(hashtable, key)
-        tree = me.getValue(pair)
+        tree = me.getValue(pair)["binary"]
         tree_size = om.size(tree)
         tree_height = om.height(tree)
         list_entry = {["caracteristica"]: key, ["size"]: tree_size, ["height"]: tree_height}
