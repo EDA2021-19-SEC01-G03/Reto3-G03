@@ -104,7 +104,7 @@ def addSong(catalog, song):
 
 def updateVariableIndex(map, song, variable):
 
-    valorbinary = song[variable]
+    valorbinary = float(song[variable])
 
     entry = om.get(map, valorbinary)
 
