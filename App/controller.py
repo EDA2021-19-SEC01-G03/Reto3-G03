@@ -31,6 +31,23 @@ El controlador se encarga de mediar entre la vista y el modelo.
 
 # Inicialización del Catálogo de libros
 
+
+
+
+def loadData(catalog, file): 
+
+    songsfile = cf.data_dir + file
+    input_file = csv.DictReader(open(songsfile, encoding="utf-8"),
+                                delimiter=",")
+
+    for song in input_file: 
+        model.addBinaryVariable(catalog)
+        model.addSong(catalog, song)
+    return catalog
+
+
+
+
 # Funciones para la carga de datos
 
 # Funciones de ordenamiento
