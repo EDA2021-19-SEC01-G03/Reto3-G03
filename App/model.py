@@ -47,11 +47,30 @@ def NewCatalog():
     catalog['VariablesMap'] = mp.newMap(17, maptype='PROBING', loadfactor=0.8)
     catalog['SongsPlays'] = lt.newList('ARRAY_LIST')
     catalog['UniqueSongs'] = lt.newList('ARRAY_LIST', cmpfunction= compareTrackid)
-    catalog['UniqueAuthors'] = lt.newList('ARRAY_LIST', cmpfunction= compareArtistid )
+    catalog['UniqueAuthors'] = lt.newList('ARRAY_LIST', cmpfunction= compareArtistid)
 
     return catalog
 
 # Funciones para agregar informacion al catalogo
+
+def addBinaryVariable(catalog):
+    
+    variables = lt.newList('ARRAY_LIST')
+    lt.addLast(variables, 'instrumentalness')
+    lt.addLast(variables, "liveness")
+    lt.addLast(variables, "speechiness")
+    lt.addLast(variables, "danceability")
+    lt.addLast(variables, "valence")
+    lt.addLast(variables, "loudness")
+    lt.addLast(variables, "tempo")
+    lt.addLast(variables, "acousticness")
+    lt.addLast(variables, "energy")
+
+    for name in lt.iterator(variables): 
+
+        key = name
+        value = newVariable(name)
+        mp.put(catalog['VariablesMap'], key, value)
 
 
 def addSong(catalog, song): 
@@ -71,26 +90,46 @@ def addSong(catalog, song):
     present = lt.isPresent(song['artist_id'])
     if present == 0 : 
         lt.addLast(catalog['UniqueAuthors'], song)
+        
+    #Add in index
 
-def addBinaryVariable(catalog, key):
-    
-    variables = lt.newList('ARRAY_LIST')
-    lt.addLast(variables, 'instrumentalness')
-    lt.addLast(variables, "liveness")
-    lt.addLast(variables, "speechiness")
-    lt.addLast(variables, "danceability")
-    lt.addLast(variables, "valence")
-    lt.addLast(variables, "loudness")
-    lt.addLast(variables, "tempo")
-    lt.addLast(variables, "acousticness")
-    lt.addLast(variables, "energy")
+    lst_key = mp.keySet(catalog['VariablesMap'])
 
-    for name in lt.iterator(variables): 
 
-        key = name
-        value = newVariable(name)
-        mp.put(catalog['VariablesMap'], key, value)
+    for key in lt.iterator(lst_key): 
+        pair = mp.get(catalog['VariablesMap'], key)
+        omap = me.getValue(pair)
 
+        updateVariableIndex(omap, song, key)
+
+def updateVariableIndex(map, song, variable):
+
+    valorbinary = song[variable]
+
+    entry = om.get(map, valorbinary)
+
+    if entry is None: 
+        varentry = newVarEntry(valorbinary, song)
+        om.put(map, valorbinary, varentry)
+    else: 
+        varentry = me.getValue(entry)
+
+    addVariableIndex(varentry, song)
+
+    return map
+
+def addVariableIndex(varentry, song): 
+    lst = varentry['lstsongs']
+    lt.addLast(lst, song)
+
+
+
+def newVarEntry(value, song): 
+
+    entry = {'value':'', 'lstsongs': None}
+    entry['value'] = value
+    entry['lstsongs'] = lt.newList('ARRAY_LIST')
+    return entry
 
 
 def newVariable(variable_name): 
@@ -113,10 +152,10 @@ def primeraEntrega(catalog):
     retorno = lt.newList("ARRAY_LIST")
     for key in lt.iterator(keys):
         pair = mp.get(hashtable, key)
-        tree = me.getValue(pair)
+        tree = me.getValue(pair)['binary']
         tree_size = om.size(tree)
         tree_height = om.height(tree)
-        list_entry = {["caracteristica"]: key, ["size"]: tree_size, ["height"]: tree_height}
+        list_entry = {"variable": key, "size": tree_size, "height": tree_height}
         lt.addLast(retorno, list_entry)
     return retorno
 
