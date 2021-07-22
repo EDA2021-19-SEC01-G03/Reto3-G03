@@ -47,8 +47,9 @@ def NewCatalog():
     catalog['VariablesMap'] = {}
     catalog['SongsPlays'] = lt.newList('ARRAY_LIST')
     catalog['UniqueSongs'] = mp.newMap(maptype='PROBING')
-    catalog['UniqueAuthors'] =mp.newMap(maptype='PROBING')
-
+    catalog['UniqueAuthors'] = mp.newMap(maptype='PROBING')
+    catalog['GenreMap'] = mp.newMap(maptype= 'PROBING')
+    
     return catalog
 
 # Funciones para agregar informacion al catalogo
@@ -99,7 +100,7 @@ def addSong(catalog, song):
 
 def updateVariableIndex(map, song, variable):
 
-    valorbinary = round(float(song[variable]),2)
+    valorbinary = round(float(song[variable]),3)
 
     entry = om.get(map, valorbinary)
 
@@ -136,6 +137,22 @@ def newVariable(variable_name):
     return elem
 
 
+def addGenreMap(catalog):
+    map = catalog['GenreMap']
+    mp.put(map, 'Reggae', [60,90])
+    mp.put(map, 'Down-tempo', [70,100])
+    mp.put(map, 'Chill-out', [90,120])
+    mp.put(map, 'Hip-hop', [85,115])
+    mp.put(map, 'Jazz and Funk', [120,125])
+    mp.put(map, 'Pop', [100,130])
+    mp.put(map, 'R&B', [60,80])
+    mp.put(map, 'Rock', [110,140])
+    mp.put(map, 'Metal', [100,160])
+
+
+def addNewGenre(catalog, genre, lim):
+    map = catalog['GenreMap']
+    mp.put(map, genre, lim)
 # Funciones para creacion de datos
 
 # Funciones de consulta
@@ -153,6 +170,56 @@ def primeraEntrega(catalog):
         lt.addLast(retorno, list_entry)
     return retorno
 
+
+def getReq4(catalog, genreList):
+    tree = catalog['VariablesMap']['tempo']['binary']
+    hasht = catalog['GenreMap']
+    cont = 0
+    entryList = lt.newList('ARRAY_LIST')
+    for genre in lt.iterator(genreList):
+        entry = Req4Iterator(tree,hasht, genre)
+        cont += entry['eventSize']
+        lt.addLast(entryList, entry)
+    return cont, entryList
+
+
+def getGenreBPM(hasht, genre):
+    genrepair = mp.get(hasht, genre)
+    if genrepair:
+        lim = me.getValue(genrepair)
+        return lim
+    else:
+        print('error')
+        return None
+
+
+def Req4Iterator(tree, hasht, genre):
+    lim = getGenreBPM(hasht, genre)
+    nodeList = om.values(tree, lim[0], lim[1])
+    eventCont = 0
+    artistList = lt.newList('ARRAY_LIST')
+    artistCont = 0
+    artistHash = mp.newMap(maptype='PROBING')
+    for node in lt.iterator(nodeList):
+        for event in lt.iterator(node['lstsongs']):
+            eventCont +=1
+            if not mp.contains(artistHash, event['artist_id']):
+                mp.put(artistHash, event['artist_id'],1)
+                if artistCont != 10:
+                    lt.addLast(artistList, event['artist_id'])
+                    artistCont += 1
+    artistSize = mp.size(artistHash)
+    retorno = newReq4Entry(genre,eventCont, artistSize, artistList)
+    return retorno
+
+
+def newReq4Entry(genre, eventCont, artistSize, artistList):
+    retorno = {}
+    retorno['genre'] = genre
+    retorno['eventSize'] = eventCont
+    retorno['artistSize'] = artistSize
+    retorno['artistList'] = artistList
+    return retorno
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 

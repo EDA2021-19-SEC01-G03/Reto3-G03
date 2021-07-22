@@ -45,6 +45,7 @@ def loadData(catalog):
     input_file = csv.DictReader(open(songsfile, encoding="utf-8"),
                                 delimiter=",")
     model.addBinaryVariable(catalog)
+    model.addGenreMap(catalog)
     i=0
     for song in input_file: 
         model.addSong(catalog, song)
@@ -58,6 +59,10 @@ def loadData(catalog):
 
 # Funciones para la carga de datos
 
+
+def addNewGenre(catalog, genre, lim):
+    
+    model.addNewGenre(catalog, genre, lim)
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
@@ -65,3 +70,7 @@ def loadData(catalog):
 def primeraEntrega(catalog):
     
     return model.primeraEntrega(catalog)
+
+def getReq4(catalog, genreList):
+    
+    return model.getReq4(catalog, genreList)
