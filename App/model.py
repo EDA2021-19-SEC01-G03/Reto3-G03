@@ -44,7 +44,7 @@ los mismos.
 def NewCatalog():
     catalog = { 'SongsPlays': None,  'VariablesMap': None, 'UniqueSongs': None, 'UniqueAuthors': None  }
 
-    catalog['VariablesMap'] = mp.newMap(17, maptype='PROBING', loadfactor=0.8)
+    catalog['VariablesMap'] = {}
     catalog['SongsPlays'] = lt.newList('ARRAY_LIST')
     catalog['UniqueSongs'] = mp.newMap(maptype='PROBING')
     catalog['UniqueAuthors'] =mp.newMap(maptype='PROBING')
@@ -65,12 +65,11 @@ def addBinaryVariable(catalog):
     lt.addLast(variables, "tempo")
     lt.addLast(variables, "acousticness")
     lt.addLast(variables, "energy")
-
+    
     for name in lt.iterator(variables): 
-
-        key = name
+        
         value = newVariable(name)
-        mp.put(catalog['VariablesMap'], key, value)
+        catalog['VariablesMap'][name] = value
 
 
 def addSong(catalog, song): 
@@ -91,13 +90,11 @@ def addSong(catalog, song):
         
     #Add in index
 
-    lst_key = mp.keySet(catalog['VariablesMap'])
+    lst_key = catalog['VariablesMap'].keys()
 
 
-    for key in lt.iterator(lst_key): 
-        pair = mp.get(catalog['VariablesMap'], key)
-        omap = me.getValue(pair)['binary']
-
+    for key in lst_key:
+        omap = (catalog['VariablesMap'].get(key))['binary']
         updateVariableIndex(omap, song, key)
 
 def updateVariableIndex(map, song, variable):
@@ -144,12 +141,12 @@ def newVariable(variable_name):
 # Funciones de consulta
 
 def primeraEntrega(catalog):
-    hashtable = catalog["VariablesMap"]
-    keys = mp.keySet(hashtable)
+    diccionario = catalog["VariablesMap"]
+    keys = diccionario.keys()
+    print(keys)
     retorno = lt.newList("ARRAY_LIST")
-    for key in lt.iterator(keys):
-        pair = mp.get(hashtable, key)
-        tree = me.getValue(pair)['binary']
+    for key in keys:
+        tree = diccionario.get(key)['binary']
         tree_size = om.size(tree)
         tree_height = om.height(tree)
         list_entry = {"variable": key, "size": tree_size, "height": tree_height}
