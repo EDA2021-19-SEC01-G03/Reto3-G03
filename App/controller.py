@@ -94,6 +94,25 @@ def Req1(catalog, cat1, lo1, hi1, cat2, lo2, hi2):
     return result, delta_time, delta_memory
 
 
+def getReq2(catalog, limLive, limSpeech):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
+    retorno = model.getReq2(catalog, limLive, limSpeech)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+
+    return retorno, delta_time, delta_memory
+
+
 def Req3(catalog, loVal, hiVal, loTempo, hiTempo):
 
     delta_time = -1.0
@@ -129,7 +148,7 @@ def getReq4(catalog, genreList):
     delta_time = stop_time - start_time
     delta_memory = deltaMemory(start_memory, stop_memory)
 
-    return model.getReq4(catalog, genreList), delta_time, delta_memory
+    return retorno, delta_time, delta_memory
 
 # Funciones para medir tiempo y memoria
 

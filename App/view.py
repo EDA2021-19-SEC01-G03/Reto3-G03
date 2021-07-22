@@ -87,6 +87,21 @@ def printReq1(tuple):
     print('Total of unique artists: ' + str(plays))
 
 
+def printReq2(dicc, limLive, limSpeech):
+    print('\n***** Resultados Req No. 2... *****')
+    print('Liveness se encuentra entre '+ str(limLive[0]) + ' y ' + str(limLive[1]))
+    print('Speechness se encuentra entre '+ str(limSpeech[0]) + ' y ' + str(limSpeech[1]))
+    print('Total de canciones unicas encontradas en los eventos: ' + str(dicc['trackSize']) + '\n')
+    print('-----Algunos track_id unicos encontrados-----')
+    n = 1
+    for entry in lt.iterator(dicc['trackList']):
+        track_id = entry['track_id']
+        liveness = entry['liveness']
+        speechness = entry['speechness']
+        print(str(n) + ': ' + str(track_id) + ' con Liveness ' + str(liveness) + ' y con Speechness ' + str(speechness))
+        n += 1
+
+
 def printReq3(tuple): 
 
     size = tuple[1]
@@ -167,7 +182,18 @@ while True:
         print("\n")
         
     elif int(inputs[0]) == 4:
-        a = "Completar Req 2"
+        limLive = [0,0]
+        limSpeech = [0,0]
+        limLive[0] = round(float(input('Ingrese el limite inferior de la caracteristica Liveness:   ')),2)
+        limLive[1] = round(float(input('Ingrese el limite superior de la caracteristica Liveness:   ')),2)
+        limSpeech[0] = round(float(input('Ingrese el limite inferior de la caracteristica Speechness:   ')),2)
+        limSpeech[1] = round(float(input('Ingrese el limite superior de la caracteristica Speechness:   ')),2)
+        
+        Req2 = controller.getReq2(catalog, limLive, limSpeech)
+        printReq2(Req2[0], limLive, limSpeech)
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req2[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req2[2]:.3f}")
+        print("\n")
 
     elif int(inputs[0]) == 5:
 

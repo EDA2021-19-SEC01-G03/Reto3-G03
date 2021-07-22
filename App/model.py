@@ -26,6 +26,7 @@
 
 
 import config as cf
+import random
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.ADT import orderedmap as om
@@ -203,6 +204,48 @@ def Req1(catalog, cat1, lo1, hi1, cat2, lo2, hi2):
         size = mp.size(UArtists)
 
         return size, cant
+
+
+def getReq2(catalog, limLive, limSpeech):
+    trackList = lt.newList("ARRAY_LIST")
+    trackHash = mp.newMap(maptype="PROBING")
+    tree = catalog['VariablesMap']['speechiness']['binary']
+    nodeList = om.values(tree, limSpeech[0], limSpeech[1])
+    for node in lt.iterator(nodeList):
+        for event in lt.iterator(node['lstsongs']):
+            liveness = float(event['liveness'])
+            if (limLive[0] <= liveness) and (liveness <= limLive[1]):
+                if not mp.contains(trackHash, event['track_id']):
+                    entry = newReq2Entry(event)
+                    mp.put(trackHash, event['track_id'],entry)
+                    """if (lt.size(trackList) <=8) and (random.getrandbits(1) == 1):
+                        entry = newReq2Entry(event)
+                        lt.addLast(trackList, entry)"""
+    trackSize = mp.size(trackHash)
+    trackList1 = mp.valueSet(trackHash)
+    n = 0
+    posList = []
+    cond = True
+    while cond:
+        rng = random.randint(1, trackSize)
+        if rng not in posList:
+            posList.append(rng)
+            trackEvent = lt.getElement(trackList1, rng )
+            lt.addLast(trackList, trackEvent)
+            n +=1
+            if n == 8 or n == (trackSize):
+                cond = False
+    retorno = {"trackSize": trackSize, "trackList":trackList}
+    
+    return retorno
+
+
+def newReq2Entry(event):
+    track_id = event['track_id']
+    liveness = event['liveness']
+    speechness = event['speechiness']
+    entry = {'track_id':track_id, 'liveness':liveness, 'speechness': speechness}
+    return entry
 
 
 def Req3(catalog, loVal, hiVal, loTempo, hiTempo):
