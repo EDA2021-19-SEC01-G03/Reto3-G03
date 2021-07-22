@@ -218,9 +218,6 @@ def getReq2(catalog, limLive, limSpeech):
                 if not mp.contains(trackHash, event['track_id']):
                     entry = newReq2Entry(event)
                     mp.put(trackHash, event['track_id'],entry)
-                    """if (lt.size(trackList) <=8) and (random.getrandbits(1) == 1):
-                        entry = newReq2Entry(event)
-                        lt.addLast(trackList, entry)"""
     trackSize = mp.size(trackHash)
     trackList1 = mp.valueSet(trackHash)
     n = 0
