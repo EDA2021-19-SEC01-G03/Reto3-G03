@@ -99,7 +99,7 @@ def addSong(catalog, song):
 
 def updateVariableIndex(map, song, variable):
 
-    valorbinary = float(song[variable])
+    valorbinary = round(float(song[variable]),2)
 
     entry = om.get(map, valorbinary)
 
