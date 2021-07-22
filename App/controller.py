@@ -114,8 +114,22 @@ def Req3(catalog, loVal, hiVal, loTempo, hiTempo):
     return result, delta_time, delta_memory
 
 def getReq4(catalog, genreList):
-    
-    return model.getReq4(catalog, genreList)
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
+    retorno = model.getReq4(catalog, genreList)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+
+    return model.getReq4(catalog, genreList), delta_time, delta_memory
 
 # Funciones para medir tiempo y memoria
 

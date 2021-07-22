@@ -215,7 +215,10 @@ while True:
                 cond2 = False
         
         Req4 = controller.getReq4(catalog, genreList)
-        printReq4(Req4)
+        printReq4(Req4[0])
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req4[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req4[2]:.3f}")
+        print("\n")
 
     elif int(inputs[0]) == 7: 
 
