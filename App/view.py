@@ -39,11 +39,11 @@ def printMenu():
     print("Bienvenido")
     print("1- Crear catalogo")
     print("2- Cargar información al catalogo")
-    print("3- (Primera entrega) Mostrar información del arbol usado como indice")
-    print("4- (Primer Requerimiento) Encontrar reproducciones según rango de dos caracteristicas de contenido")
-    print("5- (Segundo Requerimiento) Encontrar música según rango de Liveness y Speechness")
-    print("6- (Tercer Requerimiento) Encontrar música según rango de Valencia y Tempo")
-    print("7- (Cuarto Requerimiento) Encontrar canciones a partir del género musical")
+    print("3- (Primer Requerimiento) Encontrar reproducciones según rango de dos caracteristicas de contenido")
+    print("4- (Segundo Requerimiento) Encontrar música según rango de Liveness y Speechness")
+    print("5- (Tercer Requerimiento) Encontrar música según rango de Valencia y Tempo")
+    print("6- (Cuarto Requerimiento) Encontrar canciones a partir del género musical")
+    print("7- (Primera entrega) Mostrar información del arbol usado como indice")
     print("0- Salir")
 
 catalog = None
@@ -103,6 +103,28 @@ def printReq3(tuple):
         l += 1
 
 
+def printReq4(touple):
+    print('***** Resultados Req No. 4...*****')
+    print('Total de reproducciones: ' + str(touple[0]) + '\n')
+    for entry in lt.iterator(touple[1]):
+        print("=====" + entry['genre'] + "=====")
+        print('La cantidad de reproducciones para este genero es de: ' + str(entry['eventSize']))
+        print('La cantidad de artistas unicos encontrados para este genero es de: ' + str(entry['artistSize']))
+        print('----- Algunos artistas del genero -----')
+        n = 1
+        for artist in lt.iterator(entry['artistList']):
+            print(str(n) + ': ' + artist)
+            n += 1
+
+
+def printMenuReq4():
+    print("1- Ingresar Lista de busqueda")
+    print("2- Añadir un nuevo genero")
+
+
+def printMenuReq4_1():
+    print("1- Para añadir un elemento a la lista de busqueda de generos")
+    print("0- Terminar de añadir elementos e iniciar la busqueda")
 """
 Menu principal
 """
@@ -143,8 +165,11 @@ while True:
         print("\n")
         print("Tiempo [ms]: ", f"{Req1[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req1[2]:.3f}")
         print("\n")
+        
+    elif int(inputs[0]) == 4:
+        a = "Completar Req 2"
 
-    elif int(inputs[0]) == 6:
+    elif int(inputs[0]) == 5:
 
         loVal = round(float(input("Ingrese el rango inferior para la valencia: ")), 2)
         hiVal = round(float(input("Ingrese el rango superior para la valencia: ")), 2)
@@ -161,11 +186,42 @@ while True:
         print("Tiempo [ms]: ", f"{Req3[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req3[2]:.3f}")
         print("\n")
 
-    elif int(inputs[0]) == 9: 
+        
+    elif int(inputs[0]) == 6:
+        
+        genreList = lt.newList("ARRAY_LIST")
+        cond1 = True
+        cond2 = True
+        print("Bienvenido al Menu del requerimiento 4. ¿Que desea hacer?")
+        while cond1:
+            printMenuReq4()
+            Req4input0 = input("Seleccione una opcion para continuar\n")
+            if int(Req4input0[0]) == 1:
+                cond1 = False 
+            elif int(Req4input0[0]) == 2:
+                lim = [0, 0]
+                genre = input("Ingrese el nombre del nuevo genero:  ")
+                lim[0] = int(input("Ingrese el limite inferior de BPM Tipico:   "))
+                lim[1] = int(input("Ingrese el limite superior del BPM tipico:  "))
+                controller.addNewGenre(catalog,genre, lim)
+                print("Se ha agregado el genero a la lista de generos")
+        
+        while cond2:
+            printMenuReq4_1()
+            Req4input1 = input('Seleccione una opcion para continuar\n')
+            if int(Req4input1[0]) == 1:
+                lt.addLast(genreList, input('Escriba el genero que esta buscando\n'))
+            elif int(Req4input1[0]) == 0:
+                cond2 = False
+        
+        Req4 = controller.getReq4(catalog, genreList)
+        printReq4(Req4)
+
+    elif int(inputs[0]) == 7: 
 
         lst_primeraEntrega = controller.primeraEntrega(catalog)
         printPrimeraEntrega(lst_primeraEntrega)
-
+        
     else:
         sys.exit(0)
 sys.exit(0)

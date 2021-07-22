@@ -46,6 +46,7 @@ def loadData(catalog):
     input_file = csv.DictReader(open(songsfile, encoding="utf-8"),
                                 delimiter=",")
     model.addBinaryVariable(catalog)
+    model.addGenreMap(catalog)
     i=0
     for song in input_file: 
         model.addSong(catalog, song)
@@ -59,6 +60,10 @@ def loadData(catalog):
 
 # Funciones para la carga de datos
 
+
+def addNewGenre(catalog, genre, lim):
+    
+    model.addNewGenre(catalog, genre, lim)
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
@@ -108,7 +113,9 @@ def Req3(catalog, loVal, hiVal, loTempo, hiTempo):
 
     return result, delta_time, delta_memory
 
-
+def getReq4(catalog, genreList):
+    
+    return model.getReq4(catalog, genreList)
 
 # Funciones para medir tiempo y memoria
 
@@ -141,3 +148,4 @@ def deltaMemory(start_memory, stop_memory):
     # de Byte -> kByte
     delta_memory = delta_memory/1024.0
     return delta_memory
+
