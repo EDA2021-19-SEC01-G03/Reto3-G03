@@ -42,7 +42,7 @@ los mismos.
 
 
 def NewCatalog():
-    catalog = { 'SongsPlays': None,  'VariablesMap': None, 'UniqueSongs': None, 'UniqueAuthors': None  }
+    catalog = {'SongsPlays': None,  'VariablesMap': None, 'UniqueSongs': None, 'UniqueAuthors': None  }
 
     catalog['VariablesMap'] = {}
     catalog['SongsPlays'] = lt.newList('ARRAY_LIST')
@@ -66,13 +66,13 @@ def addBinaryVariable(catalog):
     lt.addLast(variables, "acousticness")
     lt.addLast(variables, "energy")
     
-    for name in lt.iterator(variables): 
+    for name in lt.iterator(variables):
         
         value = newVariable(name)
         catalog['VariablesMap'][name] = value
 
 
-def addSong(catalog, song): 
+def addSong(catalog, song):
 
     #Add song
 
@@ -152,6 +152,91 @@ def primeraEntrega(catalog):
         list_entry = {"variable": key, "size": tree_size, "height": tree_height}
         lt.addLast(retorno, list_entry)
     return retorno
+
+
+def Req1(catalog, cat1, lo1, hi1, cat2, lo2, hi2): 
+    dict = catalog['VariablesMap']
+    UArtists = mp.newMap(maptype='PROBING')
+
+    entry = dict.get(cat1)
+
+    if entry is not None:
+
+        binaryMap = entry['binary']
+
+        lst_lst = om.values(binaryMap, lo1, hi1)
+
+        cant = 0
+
+        for pair in lt.iterator(lst_lst):
+
+            lst = pair['lstsongs']
+
+            for ele in lt.iterator(lst):
+
+                cat2E = round(float(ele[cat2]), 2)
+
+                if cat2E >= lo2 and cat2E <= hi2:
+                    cant += 1
+
+                    if mp.contains(UArtists, ele['artist_id']) is False:
+
+                        mp.put(UArtists, ele['artist_id'], ele['track_id'])
+
+        size = mp.size(UArtists)
+
+        return size, cant
+
+
+def Req3(catalog, loVal, hiVal, loTempo, hiTempo):
+
+    dict = catalog['VariablesMap']
+    USongs = mp.newMap(maptype='PROBING')
+    lstSongs = lt.newList('ARRAY_LIST')
+
+    binaryMap = dict['tempo']['binary']
+
+    lst_lst = om.values(binaryMap, loTempo, hiTempo)
+
+    
+
+    for pair in lt.iterator(lst_lst):
+
+        lst = pair['lstsongs']
+
+        for ele in lt.iterator(lst):
+
+            valR = round(float(ele['valence']), 2)
+
+            if valR >= loVal and valR <= hiVal:
+
+                song = ValenceTempo(ele)
+
+                if mp.contains(USongs, ele['track_id']) is False:
+
+                    mp.put(USongs, ele['track_id'], ele['track_id'])
+
+                    if lt.size(lstSongs) < 8:
+                        lt.addLast(lstSongs, song)
+
+    size = mp.size(USongs)
+
+    return lstSongs, size
+
+
+def ValenceTempo(play):
+
+    dict = {'track_id':None, 'valence': None, 'tempo': None}
+    dict['track_id'] = play['track_id']
+    dict['valence'] = play['valence']
+    dict['tempo'] = play['tempo']
+    return dict
+
+
+
+
+
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 

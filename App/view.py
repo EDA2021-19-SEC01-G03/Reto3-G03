@@ -75,6 +75,34 @@ def printPrimeraEntrega(lst):
     for entry in lt.iterator(lst):
         print("Arbol Indice de la caracteristica: "+ entry["variable"])
         print("Numero de elementos del arbol: " + str(entry["size"]) + " Altura del Arbol: " + str(entry["height"]))
+
+
+def printReq1(tuple): 
+
+
+    size = tuple[0]
+    plays = tuple[1]
+
+    print('Total of reproduction: ' + str(size))
+    print('Total of unique artists: ' + str(plays))
+
+
+def printReq3(tuple): 
+
+    size = tuple[1]
+    print('Total of unique tracks in events: ' + str(size))
+    lst = tuple[0]
+    l = 1
+    for s in lt.iterator(lst): 
+        track = s['track_id']
+        val = s['valence']
+        tem = s['tempo']
+
+        print('Track ' + str(l) + ': ' + str(track) + ' with valence ' + str(val) + ' and tempo of ' + str(tem))
+
+        l += 1
+
+
 """
 Menu principal
 """
@@ -96,11 +124,48 @@ while True:
         printInformaciónCarga(catalog)
 
     elif int(inputs[0]) == 3:
-        print("Cargando información del arbol...")
-        
+
+        cat1 = input("Ingrese la característica de contenido 1: ").strip().lower()
+        lo1 = round(float(input("Ingrese rango inferior (categoría 1): ")), 2)
+        hi1 = round(float(input("Ingrese rango superior (categoría 1): ")), 2)
+        print("\n")
+        cat2 = input("Ingrese la característica de contenido 2: ").strip().lower()
+        lo2 = round(float(input("Ingrese rango inferior (categoría 2): ")), 2)
+        hi2 = round(float(input("Ingrese rango superior (categoría 2): ")), 2)
+
+        Req1 = controller.Req1(catalog, cat1, lo1, hi1, cat2, lo2, hi2)
+
+        print("\n")
+        print(cat1.title() + ' is between ' + str(lo1) + ' and ' + str(hi1) +
+              ' and ' + cat2.title() + ' is between ' + str(lo2) + ' and ' + str(hi2))
+
+        printReq1(Req1[0])
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req1[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req1[2]:.3f}")
+        print("\n")
+
+    elif int(inputs[0]) == 6:
+
+        loVal = round(float(input("Ingrese el rango inferior para la valencia: ")), 2)
+        hiVal = round(float(input("Ingrese el rango superior para la valencia: ")), 2)
+        print("\n")
+        loTempo = round(float(input("Ingrese el rango inferior para el Tempo: ")), 2)
+        hiTempo = round(float(input("Ingrese el rango superior para el Tempo: ")), 2)
+
+        print('Valence is between ' + str(loVal)+ ' and ' + str(hiVal))
+        print('Tempo is between ' + str(loTempo) + ' and ' + str(hiTempo))
+
+        Req3 = controller.Req3(catalog, loVal, hiVal, loTempo, hiTempo)
+        printReq3(Req3[0])
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req3[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req3[2]:.3f}")
+        print("\n")
+
+    elif int(inputs[0]) == 9: 
+
         lst_primeraEntrega = controller.primeraEntrega(catalog)
         printPrimeraEntrega(lst_primeraEntrega)
-        
+
     else:
         sys.exit(0)
 sys.exit(0)
