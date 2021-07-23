@@ -42,7 +42,7 @@ def initCatalog():
 
 def loadData(catalog): 
 
-    songsfile = cf.data_dir + 'Small/context_content_features-small.csv'
+    songsfile = cf.data_dir + 'Diez/context_content_features-10pct.csv'
     input_file = csv.DictReader(open(songsfile, encoding="utf-8"),
                                 delimiter=",")
     model.addBinaryVariable(catalog)
@@ -52,9 +52,9 @@ def loadData(catalog):
 
         structure = model.playStructure(song)
         model.addSong(catalog, structure)
-        porcentaje = (i/4966703)*100
+        porcentaje = (i/2284720)*100
         i += 1
-        print(round(porcentaje,3))
+        print(round(porcentaje, 2))
     return catalog
 
 

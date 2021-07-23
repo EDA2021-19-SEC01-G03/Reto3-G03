@@ -269,9 +269,9 @@ def Req3(catalog, loVal, hiVal, loTempo, hiTempo):
     USongs = mp.newMap(maptype='PROBING')
     lstSongs = lt.newList('ARRAY_LIST')
 
-    binaryMap = dict['tempo']['binary']
+    binaryMap = dict['valence']['binary']
 
-    lst_lst = om.values(binaryMap, loTempo, hiTempo)
+    lst_lst = om.values(binaryMap, loVal, hiVal)
 
     
 
@@ -281,9 +281,9 @@ def Req3(catalog, loVal, hiVal, loTempo, hiTempo):
 
         for ele in lt.iterator(lst):
 
-            valR = round(float(ele['valence']), 2)
+            valR = round(float(ele['tempo']), 2)
 
-            if valR >= loVal and valR <= hiVal:
+            if valR >= loTempo and valR <= hiTempo:
 
                 song = ValenceTempo(ele)
 
