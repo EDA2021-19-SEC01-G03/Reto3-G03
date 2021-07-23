@@ -83,8 +83,8 @@ def printReq1(tuple):
     size = tuple[0]
     plays = tuple[1]
 
-    print('Total of reproduction: ' + str(size))
-    print('Total of unique artists: ' + str(plays))
+    print('Total of reproduction: ' + str(plays) )
+    print('Total of unique artists: ' + str(size))
 
 
 def printReq2(dicc, limLive, limSpeech):
