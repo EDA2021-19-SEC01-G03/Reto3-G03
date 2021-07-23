@@ -120,6 +120,24 @@ def addVariableIndex(varentry, song):
     lt.addLast(lst, song)
 
 
+
+def playStructure(play):
+
+    dict = {"track_id": play["track_id"],
+            "artist_id": play["artist_id"],
+            "instrumentalness": play["instrumentalness"],
+            "liveness": play["liveness"],
+            "speechiness": play["speechiness"],
+            "danceability": play["danceability"],
+            "valence": play["valence"],
+            "loudness": play["loudness"],
+            "tempo": play["tempo"],
+            "acousticness": play["acousticness"],
+            "energy": play["energy"]
+            }
+
+    return dict
+
 def newVarEntry(value, song): 
 
     entry = {'value':'', 'lstsongs': None}
@@ -275,6 +293,8 @@ def Req3(catalog, loVal, hiVal, loTempo, hiTempo):
 
                     if lt.size(lstSongs) < 8:
                         lt.addLast(lstSongs, song)
+
+            
 
     size = mp.size(USongs)
 

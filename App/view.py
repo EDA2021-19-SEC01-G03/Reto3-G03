@@ -73,7 +73,7 @@ def printInformaciónCarga(catalog):
 
 def printPrimeraEntrega(lst):
     for entry in lt.iterator(lst):
-        print("Arbol Indice de la caracteristica: "+ entry["variable"])
+        print("Arbol Indice de la caracteristica: " + entry["variable"])
         print("Numero de elementos del arbol: " + str(entry["size"]) + " Altura del Arbol: " + str(entry["height"]))
 
 

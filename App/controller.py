@@ -49,9 +49,11 @@ def loadData(catalog):
     model.addGenreMap(catalog)
     i=0
     for song in input_file: 
-        model.addSong(catalog, song)
-        porcentaje = (i/63399)*100
-        i +=1
+
+        structure = model.playStructure(song)
+        model.addSong(catalog, structure)
+        porcentaje = (i/4966703)*100
+        i += 1
         print(round(porcentaje,3))
     return catalog
 
